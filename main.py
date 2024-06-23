@@ -22,7 +22,7 @@ TIMEOUT = 10
 
 # Функция проверки HWID
 def check_hwid(hwid):
-    return hwid in ALLOWED_HWIDS
+  return hwid in ALLOWED_HWIDS
 
 # Функция отправки сообщения в Telegram
 def send_telegram_message(message):
