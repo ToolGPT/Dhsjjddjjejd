@@ -68,9 +68,8 @@ def decrypt(kdjeu_y, ciphertext):
 def handle_client(client_socket, address):
     try:
         data = client_socket.recv(1024)
-        decrypted_data = decrypt(kdjeu_y, data)
-        key, hwid = decrypted_data.split("|")
-        send_telegram_message(f"получено {key} и {hwid}")
+        key, hwid = data.split("|")
+
         try:
             external_ip = requests.get('https://api.ipify.org').text
         except requests.exceptions.RequestException as e:
