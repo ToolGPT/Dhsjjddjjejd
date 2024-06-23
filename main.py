@@ -28,6 +28,7 @@ def create_database():
         hwid TEXT DEFAULT '0'
     )
     """)
+    cursor.execute("INSERT INTO hwid_data (key) VALUES ('testkey123')")
     conn.commit()
     conn.close()
 
@@ -64,11 +65,12 @@ def decrypt(kdjeu_y, ciphertext):
     result = ''.join(chr(ord(c) ^ ord(k)) for c, k in zip(ciphertext, kdjeu_y * len(ciphertext)))
     return result
 
-# Обрабатываем запрос от клиента
+
 def handle_client(client_socket, address):
     try:
         data = client_socket.recv(1024)
-        key, hwid = data.split("|")
+        decrypted_data = decrypt(kdjeu_y, data)
+        key, hwid = decrypted_data.split("|")
 
         try:
             external_ip = requests.get('https://api.ipify.org').text
