@@ -103,7 +103,7 @@ def handle_client(client_socket, address):
         client_socket.close()
 
 # Запускаем сервер
-if name == "main":
+if True:
     create_database()
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.bind((HOST, PORT))
