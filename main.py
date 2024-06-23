@@ -7,8 +7,9 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 import base64
 
-# Замените эти ключи на свои собственные
-ENCRYPTION_KEY = b'9205689291bbc93d6daedcc328c605ea3721352f214982acb1c41ce50af11477'  # Ваш секретный ключ шифрования
+# Замените этот ключ на ваш сгенерированный AES-256 ключ
+ENCRYPTION_KEY = b'qP\xfc<\x8f#\xd2\x06M\xe1\x19\xb6\x1eX\x94\x19\x07\x02f\xda\xc4[O\x91\xda\xdb\xc1\xa7\xc2\x93]\xec'
+
 BOT_TOKEN = "7410613487:AAFZyzvqcQ7Xk_Mj2Lw2Os7c7rFD7Uv8xJs"
 CHAT_ID = 6749237131
 HOST = "0.0.0.0"
